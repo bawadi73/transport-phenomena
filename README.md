@@ -16,6 +16,11 @@ course, Department of Chemical Engineering, Universiti Teknologi PETRONAS.
 
 Click the links above to open the tools in any browser. No installation required.
 
+## Lecture slides
+
+- **Chapter 1 — Introduction to Transport Phenomena**
+  ([download](TP_Introduction_v2.pptx))
+
 ## Attribution
 
 Developed by Bawadi, Universiti Teknologi PETRONAS.
