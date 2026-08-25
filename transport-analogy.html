@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Transport Analogy — Momentum, Heat, Mass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#101A24;
+  --slate:#1B2A38;
+  --paper:#EDE8DE;
+  --rule:#33475C;
+  --mom:#4FB8C9;
+  --heat:#E8734A;
+  --mass:#9E86D8;
+  --dim:#8A9BAC;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  line-height:1.55;
+  padding:clamp(20px,4vw,56px);
+}
+.wrap{max-width:1120px;margin:0 auto}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 10px;
+}
+h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;
+  font-size:clamp(30px,5.2vw,54px);
+  line-height:1.05;margin:0 0 14px;letter-spacing:-.02em;
+}
+h1 em{font-style:normal;color:var(--mom)}
+.lede{max-width:62ch;color:#C6CFD8;margin:0 0 34px;font-size:clamp(15px,1.6vw,17px)}
+
+.control{
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:20px 0;margin-bottom:34px;
+  display:flex;flex-wrap:wrap;gap:26px;align-items:center;
+}
+.control label{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+  display:block;margin-bottom:8px;
+}
+.field{flex:1 1 260px;min-width:220px}
+input[type=range]{width:100%;accent-color:var(--mom);height:22px}
+.readout{
+  font-family:'IBM Plex Mono',monospace;font-size:19px;color:var(--paper);
+}
+.hint{font-size:13px;color:var(--dim);flex:1 1 100%;margin:0}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+
+.col{
+  background:var(--slate);
+  border:1px solid var(--rule);
+  padding:22px 20px 24px;
+  position:relative;
+}
+.col::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);
+}
+.col.m{--accent:var(--mom)}
+.col.h{--accent:var(--heat)}
+.col.d{--accent:var(--mass)}
+.col h2{
+  font-family:'Space Grotesk',sans-serif;font-size:19px;margin:6px 0 2px;font-weight:500;
+}
+.law{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);
+  letter-spacing:.08em;text-transform:uppercase;margin:0 0 16px;
+}
+canvas{width:100%;height:190px;display:block;background:#0C141C;border:1px solid var(--rule)}
+.eq{
+  font-family:'IBM Plex Mono',monospace;font-size:15px;
+  margin:16px 0 4px;color:var(--paper);
+}
+dl{margin:14px 0 0;font-size:14px}
+dt{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;
+   text-transform:uppercase;color:var(--dim);margin-top:10px}
+dd{margin:2px 0 0}
+dd b{font-family:'IBM Plex Mono',monospace;color:var(--accent);font-weight:500}
+
+.close{
+  margin-top:40px;border-top:1px solid var(--rule);padding-top:22px;
+  display:grid;grid-template-columns:1fr 1fr;gap:26px;
+}
+@media(max-width:860px){.close{grid-template-columns:1fr}}
+.close h3{font-family:'Space Grotesk',sans-serif;font-size:16px;margin:0 0 8px;font-weight:500}
+.close p{margin:0;font-size:14px;color:#C6CFD8}
+.close code{font-family:'IBM Plex Mono',monospace;color:var(--mom);font-size:13px}
+footer{margin-top:36px;font-size:12px;color:var(--dim);
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.06em}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Transport Phenomena · Universiti Teknologi PETRONAS</p>
+  <h1>Three laws.<br><em>One equation.</em></h1>
+  <p class="lede">Momentum, heat, and mass transfer are usually taught as separate subjects. They are not. Each says the same thing: a flux is proportional to a gradient, scaled by a diffusivity with units of m²/s. Drag the gradient and watch all three respond identically.</p>
+
+  <div class="control">
+    <div class="field">
+      <label for="grad">Driving gradient</label>
+      <input id="grad" type="range" min="0" max="100" value="55">
+    </div>
+    <div>
+      <label for="grad">Steepness</label>
+      <div class="readout" id="gradOut">0.55</div>
+    </div>
+    <div class="field">
+      <label for="diff">Diffusivity multiplier</label>
+      <input id="diff" type="range" min="20" max="200" value="100">
+    </div>
+    <div>
+      <label>Value</label>
+      <div class="readout" id="diffOut">1.00×</div>
+    </div>
+    <p class="hint">Flat gradient, no flux — regardless of how large the diffusivity is. This is why an insulated wall at steady state carries no heat, and why a fluid in solid-body rotation carries no shear.</p>
+  </div>
+
+  <div class="grid">
+
+    <section class="col m">
+      <h2>Momentum</h2>
+      <p class="law">Newton's law of viscosity</p>
+      <canvas id="cm" width="360" height="190"></canvas>
+      <p class="eq">τ<sub>yx</sub> = −ν d(ρv<sub>x</sub>)/dy</p>
+      <dl>
+        <dt>What moves</dt><dd>x-momentum, in the y-direction</dd>
+        <dt>Diffusivity</dt><dd><b id="nu">1.00</b> — kinematic viscosity ν, m²/s</dd>
+        <dt>Flux now</dt><dd><b id="fm">0.55</b> (normalised)</dd>
+      </dl>
+    </section>
+
+    <section class="col h">
+      <h2>Heat</h2>
+      <p class="law">Fourier's law</p>
+      <canvas id="ch" width="360" height="190"></canvas>
+      <p class="eq">q<sub>y</sub> = −α d(ρĈ<sub>p</sub>T)/dy</p>
+      <dl>
+        <dt>What moves</dt><dd>thermal energy, in the y-direction</dd>
+        <dt>Diffusivity</dt><dd><b id="al">1.00</b> — thermal diffusivity α, m²/s</dd>
+        <dt>Flux now</dt><dd><b id="fh">0.55</b> (normalised)</dd>
+      </dl>
+    </section>
+
+    <section class="col d">
+      <h2>Mass</h2>
+      <p class="law">Fick's law</p>
+      <canvas id="cd" width="360" height="190"></canvas>
+      <p class="eq">J<sub>Ay</sub> = −D<sub>AB</sub> dc<sub>A</sub>/dy</p>
+      <dl>
+        <dt>What moves</dt><dd>species A, in the y-direction</dd>
+        <dt>Diffusivity</dt><dd><b id="dab">1.00</b> — mass diffusivity D<sub>AB</sub>, m²/s</dd>
+        <dt>Flux now</dt><dd><b id="fd">0.55</b> (normalised)</dd>
+      </dl>
+    </section>
+
+  </div>
+
+  <div class="close">
+    <div>
+      <h3>Why the minus sign is not a detail</h3>
+      <p>Transport runs down the gradient, never up it. The sign is the second law showing up in a constitutive equation — a reminder that these are not merely curve fits.</p>
+    </div>
+    <div>
+      <h3>Where the analogy earns its keep</h3>
+      <p>Because all three diffusivities share units of m²/s, their ratios are dimensionless and physically meaningful: <code>Pr = ν/α</code>, <code>Sc = ν/D<sub>AB</sub></code>, <code>Le = α/D<sub>AB</sub></code>. Solve one boundary-layer problem and you have solved all three.</p>
+    </div>
+  </div>
+
+  <footer>Developed by Bawadi · Department of Chemical Engineering, UTP</footer>
+</div>
+
+<script>
+const grad = document.getElementById('grad');
+const diff = document.getElementById('diff');
+const panels = [
+  {id:'cm', colour:'#4FB8C9', flux:'fm', dcoef:'nu',  top:'fast',  bot:'slow'},
+  {id:'ch', colour:'#E8734A', flux:'fh', dcoef:'al',  top:'hot',   bot:'cold'},
+  {id:'cd', colour:'#9E86D8', flux:'fd', dcoef:'dab', top:'rich',  bot:'lean'}
+];
+
+function draw(){
+  const g = grad.value/100;
+  const d = diff.value/100;
+  document.getElementById('gradOut').textContent = g.toFixed(2);
+  document.getElementById('diffOut').textContent = d.toFixed(2)+'×';
+
+  panels.forEach(p=>{
+    const c = document.getElementById(p.id);
+    const ctx = c.getContext('2d');
+    const W = c.width, H = c.height;
+    ctx.clearRect(0,0,W,H);
+
+    // gridlines
+    ctx.strokeStyle='#1B2A38'; ctx.lineWidth=1;
+    for(let i=1;i<6;i++){
+      ctx.beginPath(); ctx.moveTo(0,H*i/6); ctx.lineTo(W,H*i/6); ctx.stroke();
+    }
+
+    // profile: linear gradient across y, steepness g
+    const pad = 26;
+    const mid = H/2;
+    const half = (H/2 - pad) * g;
+
+    // shaded field showing the quantity
+    for(let y=0;y<H;y+=2){
+      const frac = 1 - y/H;                       // 1 at top
+      const val = 0.5 + (frac-0.5)*g;             // linear profile
+      ctx.fillStyle = p.colour;
+      ctx.globalAlpha = 0.06 + val*0.20;
+      ctx.fillRect(0,y,W*0.42,2);
+    }
+    ctx.globalAlpha=1;
+
+    // the profile line
+    ctx.strokeStyle=p.colour; ctx.lineWidth=2.5;
+    ctx.beginPath();
+    ctx.moveTo(W*0.50 + half*1.6, pad);
+    ctx.lineTo(W*0.50 - half*1.6, H-pad);
+    ctx.stroke();
+
+    // flux arrows, length ∝ g*d, always pointing down-gradient
+    const mag = g*d;
+    const n = 3;
+    ctx.strokeStyle=p.colour; ctx.fillStyle=p.colour;
+    ctx.lineWidth=1.6;
+    for(let i=0;i<n;i++){
+      const y = pad + (H-2*pad)*(i+0.5)/n;
+      const x0 = W*0.68;
+      const L = 46*mag;
+      if(L<3) continue;
+      ctx.globalAlpha=0.9;
+      ctx.beginPath(); ctx.moveTo(x0, y-L/2); ctx.lineTo(x0, y+L/2); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x0, y+L/2+4);
+      ctx.lineTo(x0-4, y+L/2-3);
+      ctx.lineTo(x0+4, y+L/2-3);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+
+    // labels
+    ctx.fillStyle='#8A9BAC';
+    ctx.font='10px "IBM Plex Mono", monospace';
+    ctx.fillText(p.top.toUpperCase(), 6, 14);
+    ctx.fillText(p.bot.toUpperCase(), 6, H-6);
+    if(mag<0.02){
+      ctx.fillStyle='#8A9BAC';
+      ctx.font='11px "IBM Plex Mono", monospace';
+      ctx.fillText('NO FLUX', W*0.62, H/2+4);
+    }
+
+    document.getElementById(p.flux).textContent = mag.toFixed(2);
+    document.getElementById(p.dcoef).textContent = d.toFixed(2);
+  });
+}
+grad.addEventListener('input',draw);
+diff.addEventListener('input',draw);
+draw();
+</script>
+</body>
+</html>
