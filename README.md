@@ -5,11 +5,13 @@ course, Department of Chemical Engineering, Universiti Teknologi PETRONAS.
 
 ## Interactive tools
 
-- **Transport analogy widget** — momentum, heat, and mass transfer shown
-  side by side, highlighting the shared mathematical form.
-- **Diffusivity race** — visual comparison of momentum, thermal, and mass
-  diffusivities and what their ratios mean physically.
-
+- **[Transport analogy widget](https://bawadi73.github.io/transport-phenomena/transport-analogy.html)**
+  — momentum, heat, and mass transfer shown side by side, highlighting the
+  shared mathematical form.
+- **[Diffusivity race](https://bawadi73.github.io/transport-phenomena/diffusivity-race.html)**
+  — visual comparison of momentum, thermal, and mass diffusivities and what
+  their ratios mean physically.
+  
 ## Usage
 
 Open the HTML files in any browser. No installation required.
