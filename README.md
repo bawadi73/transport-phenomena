@@ -14,8 +14,7 @@ course, Department of Chemical Engineering, Universiti Teknologi PETRONAS.
   
 ## Usage
 
-Open the HTML files in any browser. No installation required.
-Hosted versions are linked above once GitHub Pages is enabled.
+Click the links above to open the tools in any browser. No installation required.
 
 ## Attribution
 
